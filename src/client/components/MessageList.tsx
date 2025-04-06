@@ -1,0 +1,97 @@
+import React, { useEffect, useRef, useState } from 'react';
+import MessageBubble from './MessageBubble';
+import { ChatParticipants, Message } from '../types';
+import { useFetchMessages } from '../hooks/useFetchMessages';
+
+interface MessageListProps {
+  chatParticipants: ChatParticipants;
+  listRef: React.RefObject<HTMLDivElement>;
+}
+
+const MessageList: React.FC<MessageListProps> = ({ 
+  chatParticipants,
+  listRef,
+}) => {
+  const [lastScrollHeight, setLastScrollHeight] = useState<number>(listRef?.current?.scrollHeight || 0);
+
+  const {
+    data: msgData,
+    error: messagesError,
+    fetchNextPage,
+    hasNextPage,
+    isLoading: isLoadingMessages,
+    isFetching,
+    isRefetching,
+    isError: isMessagesError,
+    isFetchedAfterMount,
+  } =  useFetchMessages({
+    userId: chatParticipants?.user.id,
+    contactNumber: chatParticipants?.contact.number,
+    fetchMessagesEnabled: !!chatParticipants
+  });
+
+  // Fetch next page on scroll top
+  useEffect(() => {
+    const handleScroll = async () => {
+      if (listRef?.current?.scrollTop <= 30 && hasNextPage) {
+        if (!isFetching && !isRefetching) {
+          await fetchNextPage();
+
+          const newScrollHeight = listRef?.current?.scrollHeight!;
+          if (newScrollHeight !== lastScrollHeight) {
+            listRef?.current?.scrollTo(0, newScrollHeight - lastScrollHeight);
+            setLastScrollHeight(newScrollHeight);
+          }
+        }
+      }
+    };
+
+    listRef?.current?.addEventListener('scroll', handleScroll);
+
+    return () => {
+      listRef?.current?.removeEventListener('scroll', handleScroll);
+    };
+  }, [listRef, hasNextPage, isFetching, isRefetching, fetchNextPage, lastScrollHeight, setLastScrollHeight]);
+
+  //  Scroll to bottom on load
+  useEffect(() => {
+    if (msgData?.pages.length === 1) {
+      const newScrollHeight = listRef?.current?.scrollHeight!;
+      listRef?.current?.scrollTo(0, newScrollHeight);
+    }
+  }, [msgData, listRef]);
+
+  return (
+    <div className="flex-1 overflow-y-auto p-4 bg-gray-100" ref={listRef}>
+        {isLoadingMessages ? (
+          <div className="flex justify-center items-center h-full text-gray-500">
+            Loading conversation...
+          </div>
+        ):  isMessagesError ? (
+          <div className="flex justify-center items-center h-full text-red-400 text-lg">
+            {messagesError.message}
+          </div>
+        ): (
+          <>
+            {msgData?.pages.map((group, i) => (
+              <React.Fragment key={`group_${i}`}>
+                {
+                group.data && group.data.length 
+                  && group.data.toReversed().map((message: Message, msgIndex, messageGroup) => (
+                  <div key={message.id}>
+                    <MessageBubble
+                      key={`message_${message.id}`}
+                      message={message}
+                    />
+                  </div>
+                ))}
+              </React.Fragment>
+            ))}
+          </>
+        )}
+
+      </div>
+  );
+};
+
+export default MessageList;
