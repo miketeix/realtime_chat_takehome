@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import MessageBubble from './MessageBubble';
 import { ChatParticipants, Message } from '../types';
 import { useFetchMessages } from '../hooks/useFetchMessages';
+import { getDateLabel, isDifferentDate } from '../utilities';
 
 interface MessageListProps {
   chatParticipants: ChatParticipants;
@@ -79,6 +80,16 @@ const MessageList: React.FC<MessageListProps> = ({
                 group.data && group.data.length 
                   && group.data.toReversed().map((message: Message, msgIndex, messageGroup) => (
                   <div key={message.id}>
+                    {
+                      messageGroup[msgIndex-1] && isDifferentDate(message.createdAt, messageGroup[msgIndex-1].createdAt) &&
+                      (<div className="relative flex py-4 items-center" key={`divider_${message.id}`}>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="flex-shrink mx-4 text-xs text-gray-500 bg-gray-100 px-2 z-10">
+                          {getDateLabel(message.createdAt)}
+                        </span>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                      </div>)
+                    }
                     <MessageBubble
                       key={`message_${message.id}`}
                       message={message}
