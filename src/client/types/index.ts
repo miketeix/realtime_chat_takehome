@@ -8,6 +8,13 @@ export interface User {
     user: User;
     contact: User;
   }
+  
+  export interface MessagePayload {
+    to: string[];
+    from: string;
+    content: string;
+  }
+  
   export interface Message {
     id: string;
     to: string[];
