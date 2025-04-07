@@ -1,26 +1,26 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { ChatParticipants, User } from '../types';
+import { ChatParticipants, SelectedUser, User } from '../types';
 import { useFetchNumbers } from '../hooks/useFetchNumbers';
 
 interface ChatHeaderProps {
   chatParticipants: ChatParticipants
-  setChatParticipants: Dispatch<SetStateAction<ChatParticipants>> 
+  setChatParticipants: Dispatch<SetStateAction<ChatParticipants>>,
+  selectedUser: `${SelectedUser}` 
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ chatParticipants, setChatParticipants }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({ chatParticipants, setChatParticipants, selectedUser }) => {
   const { data: numbers, isLoading, isError, error: numbersError} =  useFetchNumbers();
 
   useEffect(()=> {
     if (numbers && numbers.data.length) {
       let user, contact;
       const [ user1, user2 ] = numbers.data
-      user = user2
-      contact = user1 //chat with primary
+      user = user1
+      contact = user2; //chat with secondary
       
-      const pathname = window.location.pathname;
-      if (pathname.toLowerCase().includes('secondary')) {
-        user = user1
-        contact = user2; //chat with secondary
+      if (selectedUser === SelectedUser.Secondary) {
+        user = user2
+        contact = user1 //chat with primary
       }
       
       setChatParticipants({

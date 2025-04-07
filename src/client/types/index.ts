@@ -47,4 +47,8 @@ export interface User {
     Outgoing = 'outgoing'
   }
 
+  export enum SelectedUser {
+    Primary= 'primary',
+    Secondary= 'secondary',
+  }
  
