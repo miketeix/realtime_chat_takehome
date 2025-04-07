@@ -4,6 +4,7 @@ import { useSendMessage } from '../hooks/useSendMessage';
 import { useQueryClient } from '@tanstack/react-query';
 import { MAX_MESSAGE_LENGTH, MESSAGES_QUERY_KEY } from '../utilities/constants';
 import { addMessageToQueryCache } from '../utilities';
+import { useIncomingMessageEvent } from '../hooks/useIncomingMessageEvent';
 
 
 interface MessageInputProps {
@@ -15,6 +16,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatParticipants, scrollToC
   const [message, setMessage] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate: sendMessage, isPending } = useSendMessage();
+  const messageEventData = useIncomingMessageEvent(chatParticipants);
 
   const queryClient = useQueryClient()
   const addMessageToList = addMessageToQueryCache(queryClient, MESSAGES_QUERY_KEY);
@@ -24,6 +26,15 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatParticipants, scrollToC
       inputRef.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+
+    if ( messageEventData && messageEventData?.from === chatParticipants?.contact.number) {
+      addMessageToList({...messageEventData, direction:"incoming"});
+      const receiveSound = new Audio('src/client/assets/sounds/message_receive.mp3');
+      receiveSound.play();
+    }
+  }, [messageEventData, chatParticipants]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +55,9 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatParticipants, scrollToC
       createdAt: now
     };
     addMessageToList(tempMessage);
+
+    const sendSound = new Audio('src/client/assets/sounds/message_send.wav');
+    sendSound.play();
 
     setMessage('');
     if (inputRef.current) {
