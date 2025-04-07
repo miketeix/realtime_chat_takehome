@@ -7,8 +7,8 @@ import { MESSAGES_API_URL, MESSAGES_QUERY_KEY } from '../utilities/constants';
 
 
 interface UseFetchMessagesProps {
-  userId: string;
-  contactNumber: string;
+  userId: string | undefined;
+  contactNumber: string | undefined;
   fetchMessagesEnabled: boolean
 }
 

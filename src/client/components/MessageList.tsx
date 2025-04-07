@@ -5,7 +5,7 @@ import { useFetchMessages } from '../hooks/useFetchMessages';
 import { getDateLabel, isDifferentDate } from '../utilities';
 
 interface MessageListProps {
-  chatParticipants: ChatParticipants;
+  chatParticipants: ChatParticipants | undefined;
   listRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -24,17 +24,16 @@ const MessageList: React.FC<MessageListProps> = ({
     isFetching,
     isRefetching,
     isError: isMessagesError,
-    isFetchedAfterMount,
   } =  useFetchMessages({
-    userId: chatParticipants?.user.id,
-    contactNumber: chatParticipants?.contact.number,
+    userId: chatParticipants?.user?.id,
+    contactNumber: chatParticipants?.contact?.number,
     fetchMessagesEnabled: !!chatParticipants
   });
 
   // Fetch next page on scroll top
   useEffect(() => {
     const handleScroll = async () => {
-      if (listRef?.current?.scrollTop <= 30 && hasNextPage) {
+      if (listRef?.current?.scrollTop && listRef?.current?.scrollTop <= 30 && hasNextPage) {
         if (!isFetching && !isRefetching) {
           await fetchNextPage();
 
@@ -78,10 +77,10 @@ const MessageList: React.FC<MessageListProps> = ({
               <React.Fragment key={`group_${i}`}>
                 {
                 group.data && group.data.length 
-                  && group.data.toReversed().map((message: Message, msgIndex, messageGroup) => (
+                  && group.data.toReversed().map((message: Message, msgIndex: number, messageGroup: []) => (
                   <div key={message.id}>
                     {
-                      messageGroup[msgIndex-1] && isDifferentDate(message.createdAt, messageGroup[msgIndex-1].createdAt) &&
+                      messageGroup[msgIndex-1] && isDifferentDate(message.createdAt, (messageGroup[msgIndex-1] as Message).createdAt) &&
                       (<div className="relative flex py-4 items-center" key={`divider_${message.id}`}>
                         <div className="flex-grow border-t border-gray-300"></div>
                         <span className="flex-shrink mx-4 text-xs text-gray-500 bg-gray-100 px-2 z-10">

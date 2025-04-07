@@ -3,8 +3,8 @@ import { ChatParticipants, SelectedUser, User } from '../types';
 import { useFetchNumbers } from '../hooks/useFetchNumbers';
 
 interface ChatHeaderProps {
-  chatParticipants: ChatParticipants
-  setChatParticipants: Dispatch<SetStateAction<ChatParticipants>>,
+  chatParticipants: ChatParticipants | undefined;
+  setChatParticipants: Dispatch<SetStateAction<ChatParticipants| undefined>>;
   selectedUser: `${SelectedUser}` 
 }
 
@@ -56,8 +56,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ chatParticipants, setChatPartic
                 <h4 className="text-xs text-gray-400">{chatParticipants?.contact?.number}</h4>
               </>
           }
-          <span className={`text-xs mt-[3px]  ${isLoading ? 'text-gray-400' : 'text-green-500' }`}>
-            {isLoading ? "Offline" : "Online"}
+          <span className={`text-xs mt-[3px]  ${isLoading || isError ? 'text-gray-400' : 'text-green-500' }`}>
+            {isLoading || isError  ? "Offline" : "Online"}
           </span>
         </div>
       </div>
