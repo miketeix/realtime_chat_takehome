@@ -33,10 +33,19 @@ http://localhost:3000
 ```
 yarn build
 ```
-#### Test 
+#### Unit Tests 
 ```
 yarn test
 ```
+
+#### e2e Tests 
+```
+yarn cypress:open
+``` for GUI test runner
+```
+yarn cypress:run
+``` for headless runner
+*make sure your dev server is running first. i.e. run `yarn dev`
 
 ## Architecture
 - Vite - chosen for quick loading and HMR while developing
@@ -58,6 +67,8 @@ yarn test
 - Retry on failed message send
 - Implement placeholder UI: phone call, contact info and avatar image, attachments, emojis
 - Authentication
+- Implement accessibility considerations to design and markup
+- Finish tests
 
 
 ## Screenshots

@@ -31,7 +31,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         </div>
       
       
-      <div className={`max-w-xs sm:max-w-sm md:max-w-md} ${messageIncoming ? 'order-2' : 'order-1'}`}>
+      <div data-testid="message-bubble" className={`max-w-xs sm:max-w-sm md:max-w-md} ${messageIncoming ? 'message-incoming order-2' : ' message-outgoing order-1'}`}>
         <div className={`text-xs text-gray-500 mb-1 ${messageIncoming ? "" : "text-end"}`} >{messageIncoming ? message.from :  "You"}</div>
         
         <div className={`

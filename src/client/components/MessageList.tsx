@@ -62,7 +62,11 @@ const MessageList: React.FC<MessageListProps> = ({
   }, [msgData, listRef]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 bg-gray-100" ref={listRef}>
+    <div 
+      data-testid="message-list"
+      className="flex-1 overflow-y-auto p-4 bg-gray-100" 
+      ref={listRef}
+    >
         {isLoadingMessages ? (
           <div className="flex justify-center items-center h-full text-gray-500">
             Loading conversation...

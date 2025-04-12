@@ -105,6 +105,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatParticipants, scrollToC
 
       <form onSubmit={handleSubmit} className="flex flex-1 items-center bg-gray-100 rounded-full mx-2 px-3 text-gray-900">
         <input
+          data-testid="message-input"
           type="text"
           value={message}
           onChange={handleChange}
@@ -124,12 +125,13 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatParticipants, scrollToC
       </form>
 
       <button
+        data-testid="send-button"
         className={`p-2 rounded-full ${ !message.trim() || !!isPending
           ? 'bg-gray-200 text-gray-400 !cursor-not-allowed'
             : 'bg-blue-500 text-white hover:bg-blue-600'
           } transition-colors`}
         onClick={handleSubmit}
-        disabled={!message.trim() || !!isPending} // isPending doesn't seem to work :(
+        disabled={!message.trim() || !!isPending}
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />

@@ -16,9 +16,12 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ selectedUser }) => {
   
   const [ chatParticipants, setChatParticipants]  = useState<ChatParticipants>()
   return (
-    <div className="flex flex-col h-screen xl:min-w-lg xs:max-w-xs sm:max-w-xs md:max-w-sm lg:max-w-md  max-w-3xl mx-auto rounded-lg overflow-hidden shadow-md bg-white">
+    <div 
+      data-testid="chat-container"
+      className="flex flex-col h-screen xl:min-w-lg xs:max-w-xs sm:max-w-xs md:max-w-sm lg:max-w-md  max-w-3xl mx-auto rounded-lg overflow-hidden shadow-md bg-white"
+    >
       <ChatHeader chatParticipants={chatParticipants} setChatParticipants={setChatParticipants} selectedUser={selectedUser}/>
-      {chatParticipants && <MessageList chatParticipants={chatParticipants}  listRef={messageListRef}/>}
+      {chatParticipants && <MessageList chatParticipants={chatParticipants} listRef={messageListRef}/>}
       <MessageInput chatParticipants={chatParticipants} scrollToChatBottom={scrollToBottom(messageListRef)} />
     </div>
   );
