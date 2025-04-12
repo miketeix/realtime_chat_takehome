@@ -26,13 +26,18 @@
     "vite-express": "*"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/express": "^4.17.21",
     "@types/node": "^20.9.3",
     "@types/react": "^18.0.38",
     "@types/react-dom": "^18.2.16",
     "@vitejs/plugin-react": "^4.2.0",
+    "jsdom": "^26.0.0",
     "nodemon": "^3.0.1",
-    "vite": "^5.0.2",
+    "vite": "^6.2.6",
     "vitest": "^3.1.1"
   }
 }
