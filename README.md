@@ -1,4 +1,4 @@
-# OpenPhone Realtime Chat Challenge
+# Realtime Chat Challenge Take Home
 
 Built with the `express-vite` template, the OpenPhone API (including webhooks), server-sent events (SSE), and utilities like `react-query`and `tailwind css`, this showcase seeks to demonstrate how two conversing chat windows would update in realtime -- make sure your sound is on for the awesome sound effects! 
 Thanks,
