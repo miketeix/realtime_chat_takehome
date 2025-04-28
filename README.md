@@ -45,6 +45,7 @@ yarn cypress:open
 ```
 yarn cypress:run
 ``` for headless runner
+```
 *make sure your dev server is running first. i.e. run `yarn dev`
 
 ## Architecture
@@ -73,7 +74,7 @@ yarn cypress:run
 
 ## Screenshots
 - Date Dividers
-  <img width="503" alt="Screenshot 2025-04-06 at 5 15 52 PM" src="https://github.com/user-attachments/assets/f5c236bd-6b69-44ab-9d03-d6469f5699ed" />
+ <img width="503" alt="Screenshot 2025-04-06 at 5 15 52 PM" src="https://github.com/user-attachments/assets/f5c236bd-6b69-44ab-9d03-d6469f5699ed" />
 
 - Unsent Message
   <img width="450" alt="Screenshot 2025-04-06 at 4 14 00 PM" src="https://github.com/user-attachments/assets/52e9c7d1-e463-4792-8765-f61f1fb07712" />
